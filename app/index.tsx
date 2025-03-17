@@ -12,7 +12,7 @@ export default function Home() {
       <Stack.Screen options={{ title: "Home" }} />
       <Container>
         <ScreenContent path="app/index.tsx" title="Home" />
-        <ButtonN title="Maklo" onPress={() => alert("test")}>
+        <ButtonN title="Test" onPress={() => alert("test")}>
           Plain
         </ButtonN>
         <Link href={{ pathname: "/details", params: { name: "Dan" } }} asChild>
