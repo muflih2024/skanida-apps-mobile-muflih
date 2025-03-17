@@ -16,6 +16,6 @@ jobs:
       with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           assignees: hfzrk
-          numOfAssignee: 2
+          numOfAssignee: 1
     - name: Close Stale Issues
       uses: actions/stale@v9.1.0
