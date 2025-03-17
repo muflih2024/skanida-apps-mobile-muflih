@@ -1,11 +1,11 @@
-import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import { useRouter, Stack } from "expo-router";
+import { useEffect } from "react";
 import { Spinner, YStack } from "tamagui";
 
 import useAuthStore from "../store/authStore";
 import { supabase } from "../utils/supabase";
 
-export default function SplashScreen() {
+export default function Index() {
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
@@ -41,8 +41,11 @@ export default function SplashScreen() {
   }, [router, setUser]);
 
   return (
-    <YStack flex={1} jc="center" ai="center">
-      <Spinner size="large" />
-    </YStack>
+    <>
+      <Stack.Screen options={{ title: "Index" }} />
+      <YStack flex={1} jc="center" ai="center">
+        <Spinner size="large" />
+      </YStack>
+    </>
   );
 }
