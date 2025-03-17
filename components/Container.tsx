@@ -1,4 +1,4 @@
-import { YStack } from 'tamagui';
+import { YStack } from "tamagui";
 
 export const Container = ({ children }: { children: React.ReactNode }) => {
   return (
