@@ -1,24 +1,48 @@
-import { Stack, Link } from "expo-router";
+import { useRouter } from "expo-router";
+import React, { useEffect } from "react";
+import { Spinner, YStack } from "tamagui";
 
+import useAuthStore from "../store/authStore";
+import { supabase } from "../utils/supabase";
 
-import { ButtonN } from "~/components/Button";
+export default function SplashScreen() {
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
 
-import { Container } from "~/components/Container";
-import { ScreenContent } from "~/components/ScreenContent";
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        // Memanggil Supabase untuk cek session
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+        if (error) {
+          console.log("Terjadi error saat mengambil session:", error.message);
+        }
 
-export default function Home() {
+        console.log("Session =>", session);
+
+        if (session?.user) {
+          // Jika ada user
+          setUser(session.user);
+          router.replace("/Home");
+        } else {
+          // Jika tidak ada session
+          router.replace("/AuthSelector");
+        }
+      } catch (err) {
+        // Tangani error tak terduga
+        console.log("Error tak terduga:", err);
+      }
+    };
+
+    checkAuth();
+  }, [router, setUser]);
+
   return (
-    <>
-      <Stack.Screen options={{ title: "Home" }} />
-      <Container>
-        <ScreenContent path="app/index.tsx" title="Home" />
-        <ButtonN title="Test" onPress={() => alert("test")}>
-          Plain
-        </ButtonN>
-        <Link href={{ pathname: "/details", params: { name: "Dan" } }} asChild>
-          <ButtonN title="ASd" />
-        </Link>
-      </Container>
-    </>
+    <YStack flex={1} jc="center" ai="center">
+      <Spinner size="large" />
+    </YStack>
   );
 }
