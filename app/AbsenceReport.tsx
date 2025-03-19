@@ -11,7 +11,6 @@ const AbsenceReport = () => {
   const [attendanceStatus, setAttendanceStatus] = useState("Tidak Hadir");
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  const [fullName, setFullName] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -19,30 +18,33 @@ const AbsenceReport = () => {
       try {
         const { data: userData, error: userError } = await supabase.auth.getUser();
         if (userError || !userData?.user) {
-          Alert.alert("Error", "Failed to retrieve user information.");
-          router.push("/Login"); // Redirect to login if user is not authenticated
+          console.error("User auth error:", userError?.message);
+          Alert.alert("Error", "Failed to retrieve user. Please log in again.");
+          router.push("/Login");
           return;
         }
-        setUserId(userData.user.id);
 
-        // Fetch user profile
+        const currentUserId = userData.user.id;
+        setUserId(currentUserId);
+
+        // Pastikan user_id benar-benar ada di profiles
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
-          .select("full_name")
-          .eq("id", userData.user.id)
-          .single();
+          .select("id")
+          .eq("id", currentUserId)
+          .maybeSingle();
 
         if (profileError) {
-          console.error("Error fetching profile:", profileError.message);
-          Alert.alert("Error", "Failed to retrieve user profile.");
-        } else if (profileData?.full_name) {
-          setFullName(profileData.full_name);
-        } else {
-          Alert.alert("Error", "No profile found for the user.");
+          console.error("Profile fetch error:", profileError.message);
+        }
+
+        if (!profileData) {
+          Alert.alert("Error", "Profile not found. Please complete your profile.");
+          router.push("/ProfileSetup" as any);
         }
       } catch (exception) {
         console.error("Unexpected error:", exception);
-        Alert.alert("Error", "An unexpected error occurred while retrieving user information.");
+        Alert.alert("Error", "An unexpected error occurred.");
       }
     };
 
@@ -57,25 +59,28 @@ const AbsenceReport = () => {
 
     setLoading(true);
 
+    if (new Date(date) < new Date("2025-01-01")) {
+      Alert.alert("Error", "Absence date must be after 2025-01-01.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from("absences")
         .insert([
           {
-            user_id: userId,
-            full_name: fullName || "Unknown",
+            user_id: userId, // Pastikan ID valid
             date,
             reason,
             attendance_status: attendanceStatus,
             class_name: className,
-            class: className, // Provide a value for the class column
-            absence: "Some value", // Provide a value for the absence column
           },
         ]);
 
       if (error) {
-        console.error("Error inserting absence:", error.message);
-        Alert.alert("Error", "Failed to report attendance.");
+        console.error("Insert error:", error.message);
+        Alert.alert("Error", `Failed to report attendance: ${error.message}`);
       } else {
         Alert.alert("Success", "Attendance reported successfully.");
         router.push("/Home");
@@ -90,23 +95,10 @@ const AbsenceReport = () => {
 
   return (
     <YStack flex={1} jc="center" ai="center" space="$4" padding="$4">
-      <Text fontSize="$6" fontWeight="bold">
-        Report Attendance
-      </Text>
-
-      <Input
-        placeholder="Full Name"
-        value={fullName}
-        onChangeText={setFullName}
-        width="100%"
-        editable={!fullName} // Disable if already fetched from profile
-        maxLength={32} // Limit input to 32 characters
-      />
+      <Text fontSize="$6" fontWeight="bold">Report Attendance</Text>
 
       <Input placeholder="Date (YYYY-MM-DD)" value={date} editable={false} width="100%" />
-
       <Input placeholder="Reason" value={reason} onChangeText={setReason} width="100%" />
-
       <Input placeholder="Class Name" value={className} onChangeText={setClassName} width="100%" />
 
       <Text>Status:</Text>
@@ -125,12 +117,7 @@ const AbsenceReport = () => {
         </Button>
       </XStack>
 
-      <Button
-        onPress={handleSubmit}
-        backgroundColor="$blue10"
-        width="100%"
-        disabled={loading}
-      >
+      <Button onPress={handleSubmit} backgroundColor="$blue10" width="100%" disabled={loading}>
         {loading ? "Submitting..." : "Submit Attendance"}
       </Button>
     </YStack>
