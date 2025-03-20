@@ -26,7 +26,7 @@ export default function Login() {
       setUser(data.user);
       router.replace("/Home");
     } catch (err) {
-      setErrorMessage(err.message);
+      setErrorMessage(err instanceof Error ? err.message : "An unknown error occurred");
     } finally {
       setLoading(false);
     }
