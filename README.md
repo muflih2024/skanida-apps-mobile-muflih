@@ -10,8 +10,8 @@ Ini adalah fork dari **program absensi siswa** asli, di mana saya bertanggung ja
 
 ### 🔥 **Saat Ini Mengerjakan:**  
 ✅ **Manajemen Database** (menggunakan Supabase)  
-✅ **Pengembangan & Optimasi API**  
-✅ **Fitur Autentikasi & Keamanan**  
-✅ **Integrasi dengan Frontend & Layanan Pihak Ketiga**  
+❌ **Pengembangan & Optimasi API**  
+❌ **Fitur absen dengan lokasi**  
+❌ **Integrasi dengan Frontend & Layanan Pihak Ketiga**  
 
-💬 **Ada masalah terkait backend? Jangan ragu untuk menghubungi saya!** 💡  
+💬 **Vibe coding go brrrr** 💡  
