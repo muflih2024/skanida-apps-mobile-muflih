@@ -6,7 +6,7 @@ on:
     types: [opened]
 jobs:
   run:
-    runs-on: herta
+    runs-on: hertaspacestation
     permissions:
       issues: write
       pull-requests: write

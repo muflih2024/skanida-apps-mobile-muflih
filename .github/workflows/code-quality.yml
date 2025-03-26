@@ -10,7 +10,7 @@ on:
 jobs:
   prettier:
     name: Prettier Check
-    runs-on: herta
+    runs-on: hertaspacestation
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
