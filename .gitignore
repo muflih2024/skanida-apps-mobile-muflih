@@ -20,6 +20,8 @@ expo-env.d.ts
 ios
 android
 
+app-env.d.ts
+nativewind-env.d.ts
 # macOS
 .DS_Store
 
