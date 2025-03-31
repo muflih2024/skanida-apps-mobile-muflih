@@ -10,7 +10,7 @@ on:
 jobs:
   prettier:
     name: Prettier Check
-    runs-on: hertaspacestation
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
