@@ -20,7 +20,7 @@
     "@supabase/supabase-js": "^2.49.4",
     "expo": "^52.0.41",
     "expo-camera": "~16.0.18",
-    "expo-constants": "~16.0.2",
+    "expo-constants": "~17.0.8",
     "expo-linking": "~7.0.5",
     "expo-router": "~4.0.19",
     "expo-status-bar": "~1.12.1",
