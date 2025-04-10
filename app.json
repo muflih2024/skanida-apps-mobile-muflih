@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "skanida-apps-mobile-rebuild",
-    "slug": "skanida-apps-mobile-rebuild",
+    "name": "skanida-apps",
+    "slug": "skanida-apps-mobile",
     "version": "1.0.0",
-    "scheme": "skanida-apps-mobile-rebuild",
+    "scheme": "skanida-apps-mobile",
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/favicon.png"
     },
+    "newArchEnabled": true,
     "plugins": [
       "expo-router",
       [
