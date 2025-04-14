@@ -25,11 +25,6 @@ export default function LoginScreen() {
           onPress={() => router.push('/auth/Register')}>
           <Text className="font-medium text-white">Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          className="w-40 items-center rounded-md bg-blue-500 px-4 py-2"
-          onPress={() => router.push('/attendance/AbsenceReport')}>
-          <Text className="font-medium text-white">TO REPORT</Text>
-        </TouchableOpacity>
       </View>
     </>
   );
